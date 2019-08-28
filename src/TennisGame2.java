@@ -16,52 +16,53 @@ public class TennisGame2 implements TennisGame
 
     public String getScore(){
         String score = "";
-        score = all(score);
-        score = deuce(score);
+        if (isAll())
+            score = getAll();
+            
+        if (isDeuce())
+            score = getDeuce();
         
-        score = love(score);
+        if (isLove())
+            score = getLiteralScore();
         
-        score = normal(score);
+        if (isNormal())
+            score = getLiteralScore();
         
-        score = advantage(score);
+        if (isAdvantage())
+        	score = getAdvantage();
         
-        score = win(score);
+        if (isWin())
+        	score = getWin();
+        
         return score;
     }
 
-	private String deuce(String score) {
-		if (P1point==P2point && P1point>=3)
-            score = "Deuce";
-		return score;
+	private String getAll() {
+		return getLiteral(P1point) + "-All";
 	}
 
-	private String normal(String score) {
-		if (P1point>P2point && P1point < 4 || P2point>P1point && P2point < 4)
-        {
-			P1res = getLiteral(P1point);
-            P2res = getLiteral(P2point);
-            score = P1res + "-" + P2res;
-        }
-		return score;
+	private String getDeuce() {
+		return "Deuce";
 	}
 
-	private String all(String score) {
-		if (P1point == P2point && P1point < 4)
-        {
-            score = getLiteral(P1point);
-            score += "-All";
-        }
-		return score;
+	private String getLiteralScore() {
+		return getLiteral(P1point) + "-" + getLiteral(P2point);
 	}
 
-	private String love(String score) {
-		if (P1point > 0 && P2point==0 || P2point > 0 && P1point==0)
-        {
-            P1res = getLiteral(P1point);
-            P2res = getLiteral(P2point);
-            score = P1res + "-" + P2res;
-        }
-		return score;
+	private boolean isDeuce() {
+		return P1point==P2point && P1point>=3;
+	}
+
+	private boolean isNormal() {
+		return P1point>P2point && P1point < 4 || P2point>P1point && P2point < 4;
+	}
+
+	private boolean isAll() {
+		return P1point == P2point && P1point < 4;
+	}
+
+	private boolean isLove() {
+		return P1point > 0 && P2point==0 || P2point > 0 && P1point==0;
 	}
 
 	private String getLiteral(int playerPoint) {
@@ -77,7 +78,8 @@ public class TennisGame2 implements TennisGame
 		return literal;
 	}
 
-	private String advantage(String score) {
+	private String getAdvantage() {
+		String score = "";
 		if (hasFirstAdvantage(P1point, P2point))
         {
             score = "Advantage player1";
@@ -93,8 +95,13 @@ public class TennisGame2 implements TennisGame
 	private boolean hasFirstAdvantage(int playerOne, int playerTwo) {
 		return playerOne > playerTwo && playerTwo >= 3;
 	}
+	
+	private boolean isAdvantage() {
+		return (P1point > P2point && P2point >= 3) || (P2point > P1point && P1point >= 3);
+	}
 
-	private String win(String score) {
+	private String getWin() {
+		String score = "";
 		if (isfirstWinner(P1point, P2point))
         {
             score = "Win for player1";
@@ -108,6 +115,10 @@ public class TennisGame2 implements TennisGame
 
 	private boolean isfirstWinner(int playerOne, int playerTwo) {
 		return playerOne>=4 && playerTwo>=0 && (playerOne-playerTwo)>=2;
+	}
+	
+	private boolean isWin() {
+		return (P1point>=4 && P2point>=0 && (P1point-P2point)>=2) || (P2point>=4 && P1point>=0 && (P2point-P1point)>=2);
 	}
     
     public void SetP1Score(int number){
