@@ -21,7 +21,7 @@ public class TennisGame2 implements TennisGame
         
         score = love(score);
         
-        score = literal(score);
+        score = normal(score);
         
         score = advantage(score);
         
@@ -35,17 +35,11 @@ public class TennisGame2 implements TennisGame
 		return score;
 	}
 
-	private String literal(String score) {
-		if (P1point>P2point && P1point < 4)
+	private String normal(String score) {
+		if (P1point>P2point && P1point < 4 || P2point>P1point && P2point < 4)
         {
 			P1res = getLiteral(P1point);
             P2res = getLiteral(P2point);
-            score = P1res + "-" + P2res;
-        }
-        if (P2point>P1point && P2point < 4)
-        {
-        	P2res = getLiteral(P2point);
-        	P1res = getLiteral(P1point);
             score = P1res + "-" + P2res;
         }
 		return score;
@@ -61,16 +55,10 @@ public class TennisGame2 implements TennisGame
 	}
 
 	private String love(String score) {
-		if (P1point > 0 && P2point==0)
+		if (P1point > 0 && P2point==0 || P2point > 0 && P1point==0)
         {
             P1res = getLiteral(P1point);
             P2res = getLiteral(P2point);
-            score = P1res + "-" + P2res;
-        }
-        if (P2point > 0 && P1point==0)
-        {
-        	P2res = getLiteral(P2point);
-            P1res = getLiteral(P1point);
             score = P1res + "-" + P2res;
         }
 		return score;
@@ -78,7 +66,7 @@ public class TennisGame2 implements TennisGame
 
 	private String getLiteral(int playerPoint) {
 		String literal="";
-		if (P1point==0)
+		if (playerPoint==0)
 			literal = "Love";
 		if (playerPoint==1)
 		    literal = "Fifteen";
