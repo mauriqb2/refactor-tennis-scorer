@@ -36,33 +36,33 @@ public class TennisGame2 implements TennisGame
         
         return score;
     }
-
-	private String getAll() {
-		return getLiteral(P1point) + "-All";
+	
+	private boolean isDeuce() {
+		return P1point==P2point && P1point>=3;
 	}
 
 	private String getDeuce() {
 		return "Deuce";
 	}
 
-	private String getLiteralScore() {
-		return getLiteral(P1point) + "-" + getLiteral(P2point);
-	}
-
-	private boolean isDeuce() {
-		return P1point==P2point && P1point>=3;
-	}
-
 	private boolean isNormal() {
 		return P1point>P2point && P1point < 4 || P2point>P1point && P2point < 4;
+	}
+	
+	private boolean isLove() {
+		return P1point > 0 && P2point==0 || P2point > 0 && P1point==0;
+	}
+	
+	private String getLiteralScore() {
+		return getLiteral(P1point) + "-" + getLiteral(P2point);
 	}
 
 	private boolean isAll() {
 		return P1point == P2point && P1point < 4;
 	}
-
-	private boolean isLove() {
-		return P1point > 0 && P2point==0 || P2point > 0 && P1point==0;
+	
+	private String getAll() {
+		return getLiteral(P1point) + "-All";
 	}
 
 	private String getLiteral(int playerPoint) {
@@ -77,18 +77,17 @@ public class TennisGame2 implements TennisGame
 		    literal = "Forty";
 		return literal;
 	}
+	
+	private boolean isAdvantage() {
+		return (P1point > P2point && P2point >= 3) || (P2point > P1point && P1point >= 3);
+	}
 
 	private String getAdvantage() {
 		String score = "";
 		if (hasFirstAdvantage(P1point, P2point))
-        {
             score = "Advantage player1";
-        }
-        
         if (hasFirstAdvantage(P2point, P1point))
-        {
             score = "Advantage player2";
-        }
 		return score;
 	}
 
@@ -96,47 +95,31 @@ public class TennisGame2 implements TennisGame
 		return playerOne > playerTwo && playerTwo >= 3;
 	}
 	
-	private boolean isAdvantage() {
-		return (P1point > P2point && P2point >= 3) || (P2point > P1point && P1point >= 3);
+	private boolean isWin() {
+		return (P1point>=4 && P2point>=0 && (P1point-P2point)>=2) || (P2point>=4 && P1point>=0 && (P2point-P1point)>=2);
 	}
 
 	private String getWin() {
 		String score = "";
 		if (isfirstWinner(P1point, P2point))
-        {
             score = "Win for player1";
-        }
         if (isfirstWinner(P2point, P1point))
-        {
             score = "Win for player2";
-        }
 		return score;
 	}
 
 	private boolean isfirstWinner(int playerOne, int playerTwo) {
 		return playerOne>=4 && playerTwo>=0 && (playerOne-playerTwo)>=2;
 	}
-	
-	private boolean isWin() {
-		return (P1point>=4 && P2point>=0 && (P1point-P2point)>=2) || (P2point>=4 && P1point>=0 && (P2point-P1point)>=2);
-	}
     
     public void SetP1Score(int number){
-        
         for (int i = 0; i < number; i++)
-        {
             P1Score();
-        }
-            
     }
     
     public void SetP2Score(int number){
-        
         for (int i = 0; i < number; i++)
-        {
             P2Score();
-        }
-            
     }
     
     public void P1Score(){
